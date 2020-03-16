@@ -2,6 +2,7 @@ version: 2
 
 jobs:
   build:
+    shell: /bin/bash -euo pipefail
     docker:
       - image: circleci/php:7.3-stretch-node-browsers
 
