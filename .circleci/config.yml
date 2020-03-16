@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     docker:
@@ -6,14 +7,14 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
+      - run: sudo apt update && sudo apt install libpq-dev
+      - run: sudo docker-php-ext-install pdo pdo_pgsql pgsql
 
       # Download and cache dependencies
       # composer cache
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "composer.json" }}
+          - composer-{{ $CIRCLE_BRANCH }}-{{ checksum "composer.json" }}
       - run: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.json" }}
@@ -34,3 +35,4 @@ jobs:
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
       - run: echo Hello World
+      - run: echo "composer-$CIRCLE_BRANCH-"
