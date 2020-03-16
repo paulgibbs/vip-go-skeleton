@@ -1,0 +1,11 @@
+{
+  "name": "newjs",
+  "version": "0.0.0-development",
+  "description": "",
+  "private": true,
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.0.0"
+  }
+}
