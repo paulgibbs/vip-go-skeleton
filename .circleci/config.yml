@@ -14,7 +14,7 @@ jobs:
       # composer cache
       - restore_cache:
           keys:
-          - composer-{{ $CIRCLE_BRANCH }}-{{ checksum "composer.json" }}
+          - composer-{{ CIRCLE_BRANCH }}-{{ checksum "composer.json" }}
       - run: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.json" }}
@@ -36,3 +36,22 @@ jobs:
       #- run: ./vendor/bin/phpunit
       - run: echo Hello World
       - run: echo "composer-$CIRCLE_BRANCH-"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code
+      - bundle_dependencies:
+          requires:
+            - checkout_code
+      - rake_test:
+          requires:
+            - bundle_dependencies
+      - precompile_assets:
+          requires:
+            - bundle_dependencies
+      - deploy:
+          requires:
+            - rake_test
+            - precompile_assets
