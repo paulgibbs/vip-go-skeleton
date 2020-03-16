@@ -2,7 +2,6 @@ version: 2
 
 jobs:
   build:
-    shell: /bin/bash -euo pipefail
     docker:
       - image: circleci/php:7.3-stretch-node-browsers
 
@@ -15,7 +14,7 @@ jobs:
       # composer cache
       - restore_cache:
           keys:
-          - composer-{{ CIRCLE_BRANCH }}-{{ checksum "composer.json" }}
+          - composer-{{ .Branch }}-{{ checksum "composer.json" }}
       - run: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.json" }}
@@ -37,4 +36,3 @@ jobs:
       #- run: ./vendor/bin/phpunit
       - run: echo Hello World
       - run: echo "composer-$CIRCLE_BRANCH-"
-
