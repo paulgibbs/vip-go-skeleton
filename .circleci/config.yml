@@ -83,5 +83,5 @@ jobs:
       - *configure_environment
       - *attach_workspace
       - run:
-          name: "Run PHP Code Sniffer"
+          name: "Hello World"
           command: cat /usr/local/etc/php/conf.d/circleci.ini
