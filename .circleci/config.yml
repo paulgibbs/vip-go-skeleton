@@ -10,9 +10,6 @@ workflows:
       - test_phpcs:
           requires:
             - build
-      - test_phplint:
-          requires:
-            - build
       - deploy:
           requires:
             - test_phpcompat
