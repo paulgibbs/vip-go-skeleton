@@ -15,6 +15,11 @@ workflows:
 #            - acceptance_test_1
 #            - acceptance_test_2
 
+# This defines a reusable executor.
+executors:
+  php-docker:
+    docker:
+      - image: circleci/php:7.3-stretch-node-browsers
 
 references:
   workspace_root: &workspace_root
@@ -25,10 +30,9 @@ references:
 
   # Default container configuration.
   default_config: &default_config
-    docker:
-      - image: circleci/php:7.3-stretch-node-browsers
     environment:
       - DEFAULT_COMPOSER_FLAGS: "--no-interaction --no-progress --no-suggest --prefer-dist"
+    executor: php-docker
     working_directory: *workspace_root
 
   # DJPAULTODO: does this only need to be in the /build/ step?
