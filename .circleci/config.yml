@@ -39,8 +39,8 @@ references:
     executor: php-docker
     working_directory: *workspace_root
 
-  # Common environment set-up.
-  install_system_dependencies: &install_system_dependencies
+  # Environment set-up.
+  configure_environment: &configure_environment
     run:
       # xdebug is slow; hirak/prestissimo enables parallel Composer downloads.
       name: "Install System Dependencies"
@@ -56,7 +56,7 @@ jobs:
     steps:
       - checkout:
           path: beano
-      - *install_system_dependencies
+      - *configure_environment
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -66,7 +66,7 @@ jobs:
   test_phpcompat:
     <<: *default_config
     steps:
-      - *install_system_dependencies
+      - *configure_environment
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer"
@@ -75,7 +75,7 @@ jobs:
   test_phpcs:
     <<: *default_config
     steps:
-      - *install_system_dependencies
+      - *configure_environment
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer"
@@ -84,7 +84,7 @@ jobs:
   test_phplint:
     <<: *default_config
     steps:
-      - *install_system_dependencies
+      - *configure_environment
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer"
@@ -93,7 +93,7 @@ jobs:
   deploy:
     <<: *default_config
     steps:
-      - *install_system_dependencies
+      - *configure_environment
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer"
