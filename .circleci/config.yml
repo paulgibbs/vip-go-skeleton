@@ -7,13 +7,13 @@ workflows:
       - test_phpcs:
           requires:
             - build
-#      - acceptance_test_2:
-#          requires:
-#            - build
-#      - deploy:
-#          requires:
-#            - acceptance_test_1
-#            - acceptance_test_2
+      - test_phplint:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test_phpcs
+            - test_phplint
 
 # This defines a reusable executor.
 executors:
@@ -60,6 +60,22 @@ jobs:
       - run: echo Hello World
 
   test_phpcs:
+    <<: *default_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: "Run PHP Code Sniffer"
+          command: ls -laR
+
+  test_phplint:
+    <<: *default_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: "Run PHP Code Sniffer"
+          command: ls -laR
+
+  deploy:
     <<: *default_config
     steps:
       - *attach_workspace
