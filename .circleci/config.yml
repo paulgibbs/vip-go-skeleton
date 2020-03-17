@@ -17,9 +17,11 @@ workflows:
 
 
 references:
+  workspace_root: &workspace_root
+    /home/circleci/project
   attach_workspace: &attach_workspace
     attach_workspace:
-      at: /home/circleci/project
+      at: *workspace_root
 
   # Default container configuration.
   default_config: &default_config
@@ -27,9 +29,8 @@ references:
       - image: circleci/php:7.3-stretch-node-browsers
     environment:
       - DEFAULT_COMPOSER_FLAGS: "--no-interaction --no-progress --no-suggest --prefer-dist"
-    working_directory: /home/circleci/project
+    working_directory: *workspace_root
 
-  # Install system dependencies.
   # DJPAULTODO: does this only need to be in the /build/ step?
   install_system_dependencies: &install_system_dependencies
     run:
@@ -49,7 +50,7 @@ jobs:
           path: beano
       - *install_system_dependencies
       - persist_to_workspace:
-          root: /home/circleci/project
+          root: *workspace_root
           paths:
             - beano
       - run: echo Hello World
