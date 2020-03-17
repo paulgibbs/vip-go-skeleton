@@ -33,10 +33,12 @@ references:
   # DJPAULTODO: does this only need to be in the /build/ step?
   install_system_dependencies: &install_system_dependencies
     run:
+      # xdebug slows everything; hirak/prestissimo enables parallel Composer downloads.
       name: "Install System Dependencies"
       command: |
         sudo rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-        echo 'memory_limit=4096M\nerror_log=/home/circleci/php.log' | sudo tee -a /usr/local/etc/php/conf.d/circleci.ini
+        echo 'memory_limit=4096M' | sudo tee -a /usr/local/etc/php/conf.d/circleci.ini
+        echo 'error_log=/home/circleci/php.log' | sudo tee -a /usr/local/etc/php/conf.d/circleci.ini
         composer global require $DEFAULT_COMPOSER_FLAGS hirak/prestissimo
 
 jobs:
