@@ -5,8 +5,8 @@ workflows:
     jobs:
       - build
       - test_phpcs
-#          requires:
-#            - build
+          requires:
+            - build
 #      - acceptance_test_2:
 #          requires:
 #            - build
