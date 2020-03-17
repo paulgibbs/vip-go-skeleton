@@ -56,6 +56,7 @@ jobs:
       - persist_to_workspace:
           root: *workspace_root
           paths:
+            - .composer
             - beano
 
   test_phpcompat:
@@ -64,7 +65,7 @@ jobs:
       - *configure_environment
       - *attach_workspace
       - run:
-          name: "Runm PHP Compatibility Checks"
+          name: "Run PHP Compatibility Checks"
           command: cd beano && composer run lint:phpcompat
 
   test_phpcs:
