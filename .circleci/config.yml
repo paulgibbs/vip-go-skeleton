@@ -36,10 +36,7 @@ references:
       name: "Install System Dependencies"
       command: |
         sudo rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-        sudo tee -a /usr/local/etc/php/conf.d/circleci.ini \<\< EOF
-        memory_limit=4096M
-        error_log=/home/circleci/php.log
-        EOF
+        echo 'memory_limit=4096M\nerror_log=/home/circleci/php.log' | sudo tee -a /usr/local/etc/php/conf.d/circleci.ini
         composer global require $DEFAULT_COMPOSER_FLAGS hirak/prestissimo
 
 jobs:
