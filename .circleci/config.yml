@@ -57,7 +57,6 @@ jobs:
           root: *workspace_root
           paths:
             - beano
-      - run: echo Hello World
 
   test_phpcompat:
     <<: *default_config
@@ -66,7 +65,7 @@ jobs:
       - *attach_workspace
       - run:
           name: "Runm PHP Compatibility Checks"
-          command: composer run lint:phpcompat
+          command: cd beano && composer run lint:phpcompat
 
   test_phpcs:
     <<: *default_config
@@ -75,7 +74,7 @@ jobs:
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer Checks"
-          command: composer run lint:phpcs
+          command: cd beano && composer run lint:phpcs
 
   deploy:
     <<: *default_config
