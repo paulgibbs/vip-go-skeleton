@@ -4,6 +4,9 @@ workflows:
   build_test_deploy:
     jobs:
       - build
+      - test_phpcompat:
+          requires:
+            - build
       - test_phpcs:
           requires:
             - build
@@ -12,6 +15,7 @@ workflows:
             - build
       - deploy:
           requires:
+            - test_phpcompat
             - test_phpcs
             - test_phplint
 
@@ -58,6 +62,15 @@ jobs:
           paths:
             - beano
       - run: echo Hello World
+
+  test_phpcompat:
+    <<: *default_config
+    steps:
+      - *install_system_dependencies
+      - *attach_workspace
+      - run:
+          name: "Run PHP Code Sniffer"
+          command: cat /usr/local/etc/php/conf.d/circleci.ini
 
   test_phpcs:
     <<: *default_config
