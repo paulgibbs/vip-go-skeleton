@@ -52,11 +52,9 @@ jobs:
     steps:
       - checkout:
           path: beano
-      - *configure_environment
       - persist_to_workspace:
           root: *workspace_root
           paths:
-            - .composer
             - beano
 
   test_phpcompat:
