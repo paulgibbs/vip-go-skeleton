@@ -1,7 +1,8 @@
-version: 2
+version: 2.1
 
 workflows:
   version: 2
+
   build_test_deploy:
     jobs:
       - build
@@ -17,20 +18,10 @@ workflows:
 #            - acceptance_test_2
 
 
-# Yaml references enable us to DRY out our config by sharing variables across multiple jobs.
-# In this case, we are using the "workspaces" feature to share build files across jobs.
 references:
-  # Working folder.
-  workspace_root: &workspace_root
-    /home/circleci/project
-
-  # Subfolder of workspace_root where project repo is cloned.
-  beano_project_dir: &beano_project_dir
-    beano
-
   attach_workspace: &attach_workspace
     attach_workspace:
-      at: *workspace_root
+      at: /home/circleci/project/beano
 
   # Default container configuration.
   default_config: &default_config
@@ -38,7 +29,7 @@ references:
       - image: circleci/php:7.3-stretch-node-browsers
     environment:
       - DEFAULT_COMPOSER_FLAGS: "--no-interaction --no-progress --no-suggest --prefer-dist"
-    working_directory: *workspace_root
+    working_directory: /home/circleci/project
 
   # Install system dependencies.
   # DJPAULTODO: does this only need to be in the /build/ step?
@@ -58,12 +49,12 @@ jobs:
     <<: *default_config
     steps:
       - checkout:
-          path: *beano_project_dir
+          path: beano
       - *install_system_dependencies
       - persist_to_workspace:
-          root: *workspace_root
+          root: /home/circleci/project
           paths:
-            - *beano_project_dir
+            - beano
       - run: echo Hello World
 
   phpcs:
@@ -72,4 +63,4 @@ jobs:
       - *attach_workspace
       - run:
           name: "Run PHP Code Sniffer"
-          command: composer phpcs
+          command: ls -laR
