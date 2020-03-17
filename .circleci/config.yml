@@ -19,7 +19,7 @@ workflows:
 references:
   attach_workspace: &attach_workspace
     attach_workspace:
-      at: /home/circleci/project/beano
+      at: /home/circleci/project
 
   # Default container configuration.
   default_config: &default_config
