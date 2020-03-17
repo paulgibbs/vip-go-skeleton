@@ -4,7 +4,7 @@ workflows:
   build_test_deploy:
     jobs:
       - build
-      - test_phpcs
+      - test_phpcs:
           requires:
             - build
 #      - acceptance_test_2:
